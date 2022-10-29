@@ -54,10 +54,9 @@ int abs(int a) {
     return a < 0 ? -a : a;
 }
 
-struct Point{
-    int i,j,l;
-};
-typedef struct Point Point;
+typedef struct {
+    int i, j, l;
+} Point;
 
 int check(Point a) {
     return ((a.i + a.j + 10 <= 0) && (a.i + a.j + 20 >= 0));
@@ -68,31 +67,24 @@ Point next(Point a, int k) {
     a.j = a.j % 20 + max(a.i % 20, min(a.j - k, a.l - k)) - 10;
     a.l = k * (a.i + 1) * (a.j + 2) * (a.l + 3) % 20;
     return a;
-
 }
 
 int main(void)
 {
   int pr = 1;
-  Point a;
-  a.i = 13;
-  a.j = 19;
-  a.l = 14;
+  Point a = {13, 19, 14};
   for (int k = 0; k <= 50; ++k) {
     if (check(a)) {
       printf("YES, k = %d, i = %d, j = %d, l = %d", k, a.i, a.j, a.l);
       pr = 0;
       break;
     } else
-        a = next(a, k);
+      a = next(a, k);
   }
   if (pr == 1)
-  {
     printf("NO  i = %d, j = %d, l = %d", a.i, a.j, a.l);
-  }
   return 0;
 }
-
 
 ```
 ## Вывод приграммы
