@@ -40,25 +40,30 @@ ___Интерпритатор команд___ bash, ___версия___ 5.1.16
 ```
 #include <stdio.h>
 #include <math.h>
+#include <ctype.h>
 
-int main(void) {
-    int a = 0, n = 0, save;
-    char ch;
-    for (char ch = getchar(); ch != EOF; ch = getchar()) {
-        if ((ch != ' ') && (ch != '\n') && (ch != '\t')) {
-            ++n;
-            a = a*10 + (int) (ch -  '0'); 
+void process() {
+    int a = 0, n = 1;
+    for (int ch = getchar(); ch != EOF; ch = getchar()) {
+        if (!isspace(ch)) {
+            n *= 10;
+            a = a*10 + (ch -  '0'); 
         } else {
-            if (n > 1) {
-                save = a % (int)pow(10, n - 1) / (int)pow(10, n - 2);
-                a = a - save * (int)pow(10, n - 2) + (a % 100 / 10) * (int)pow(10, n - 2);
-                a = a - (a % 100 / 10)*10 + save * 10;
+            if (n > 10) {
+                int save = a % (n / 10) / (n / 100);
+                a += -save * (n / 100) + (a % 100 / 10) * (n / 100);
+                a += -(a % 100 / 10)*10 + save * 10;
             }
             printf("%d\n", a);
             a = 0;
-            n = 0;
+            n = 1;
         }
     }
+}
+
+int main(void) {
+    process();
+    return 0;
 }
 ```
 
