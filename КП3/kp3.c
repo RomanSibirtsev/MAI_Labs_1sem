@@ -10,7 +10,6 @@ typedef struct {
 
 double mech_eps(void) {
 	double e = 1.0f;
-
 	while (1.0f + e / 2.0f > 1.0f)
 		e /= 2.0f;
 	return e;
@@ -26,17 +25,18 @@ int number_d(double x) {
 }
 
 result teylor(double x, int n, double eps) {
-    double res = 0.0, res_old;
+    double res = 0.0, res_old, mult;
     double r, r2 ;
     result A;
-
-    for (int i = 0; i < n; ++i) {
+    res = (x - 1) / (x + 1);
+    mult = (x - 1) / (x + 1);
+    for (int i = 1; i < n; ++i) {
+        mult *= ((x - 1) / (x + 1)) * ((x - 1) / (x + 1));
+        res_old = res;
         r = (2 * i + 1);
         r = 1 / r;
-        r = r * pow(((x - 1) / (x + 1)), (2 * i + 1));
-        res_old = res;
-        res = res + r;
-        if (res_old - res < eps) {
+        res += r * mult;
+        if (fabs(res_old - res) < eps) {
             A.res = res;
             A.N = i;
             return A;
@@ -68,9 +68,9 @@ int main(void) {
 
     printf("%.*f\n", num, eps);
     for (double x = a; b - x + step >= eps; x = x + step) {
-    result res1 = teylor(x, n, eps);
-    double res2 = func(x);
-    printf("%.2f %.*f %.*f %d\n",x,  num, res1.res, num, res2, res1.N);
+      result res1 = teylor(x, n, eps);
+      double res2 = func(x);
+      printf("%.2f %.*f %.*f %d\n",x,  num, res1.res, num, res2, res1.N);
     }
     return 0;
 }
