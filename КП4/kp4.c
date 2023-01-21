@@ -28,56 +28,52 @@ double f2 (double x) {
   return (1.2502 - 0.25*x*x*x);
 }
 
-void newton(double a, double b) {
+double newton(double (*func)(double), double a, double b) {
   double x = a, x_old = -1, eps = sqrt(mech_eps());
   while (x <= b) {
     if (fabs(func(x)*sec_der(x)) < (der(x)*der(x))) {
       x_old = x;
       x = x_old - func(x)/der(x);
       if (fabs(x - x_old) <= eps) {
-        printf("Newton's method\n");
-        printf("%.16f \n", x);
-        printf("%.16f \n", func(x));
-        break;
+        return x;
       }
     }
     else {
-      printf("doesn`t converge\n");
-      break;
+      return ;
     }
   }
 }
 
-void half(double a, double b) {
+double half(double (*func)(double), double a, double b) {
   double x = a, mid, eps = sqrt(mech_eps());
   while (b - a > eps) {
     mid = (a + b) / 2.;
     if (func(a) * func(mid) < 0) b = mid;
     if (func(mid) * func(b) < 0) a = mid;
   }
+  a *= 1e10;
+  b *= 1e10;
   x = (a + b) / 2;
-  printf("dichotomy method\n");
-  printf("%.16f \n", x);
-  printf("%.16f \n", func(x));
+  x *= 1e-10;
+  return x;
 }
 
-void iter(double a, double b) {
+double iter(double (*func)(double), double a, double b) {
     double x = a, x_old = -1, eps = sqrt(mech_eps());
     while (fabs(x_old - x) > eps) {
       x_old = x;
-      x = f2(x);
+      x = func(x);
     }
-    printf("iterations method\n");
-    printf("%.16f \n", x);
-    printf("%.16f \n", func(x));
+    return x;
 }
 
 int main(void) {
   double a = 0, b = 2;
-  newton(a, b);
-  printf("\n");
-  half(a, b);
-  printf("\n");
-  iter(a, b);
-
+  double x1, x2, x3;
+  x1 = newton(func, a, b);
+  printf("%.16f %.16f\n", x1, func(x1));
+  x2 = half(func, a, b);
+  printf("%.16f %.16f\n", x2, func(x2));
+  x3 = iter(f2, a, b);
+  printf("%.16f %.16f\n", x3, func(x3));
 }
