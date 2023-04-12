@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Arch Linux) (preloaded format=pdflatex 2023.4.3)  12 APR 2023 15:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Arch Linux) (preloaded format=pdflatex 2023.4.3)  12 APR 2023 15:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -380,10 +380,10 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \gptboxwidth=\skip51
 \gptboxtext=\box53
 Package epstopdf Info: Source file: <graph.eps>
-(epstopdf)                    date: 2023-04-12 14:44:08
+(epstopdf)                    date: 2023-04-12 15:49:10
 (epstopdf)                    size: 34999 bytes
 (epstopdf)             Output file: <graph-eps-converted-to.pdf>
-(epstopdf)                    date: 2023-04-12 14:44:13
+(epstopdf)                    date: 2023-04-12 15:49:10
 (epstopdf)                    size: 12706 bytes
 (epstopdf)             Command: <repstopdf --outfile=graph-eps-converted-to.pdf
  graph.eps>
@@ -488,7 +488,7 @@ ist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/share/texmf-dist/fonts/type1
 /public/cm-super/sfrm1728.pfb></usr/share/texmf-dist/fonts/type1/public/cm-supe
 r/sfti1200.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
 
-Output written on report.pdf (4 pages, 214343 bytes).
+Output written on report.pdf (4 pages, 214344 bytes).
 PDF statistics:
  81 PDF objects out of 1000 (max. 8388607)
  49 compressed objects within 1 object stream
