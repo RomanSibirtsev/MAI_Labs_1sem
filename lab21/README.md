@@ -97,6 +97,9 @@ t1.txt: ASCII text
 Program shutdown!!!
 [roman@archlinux lab21]$ file t1.txt 
 t1.txt: Unicode text, UTF-32, little-endian
+[roman@archlinux lab21]$ ./script.sh ?
+this program changes the encodings of all files with the .txt extension
+./script.sh [encoding] [path=./]
 ```
 
 ## 9. Дневник отладки должен содержать дату и время сеансов отладки и основные события (ошибки в сценарии и программе, нестандартные ситуации) и краткие комментарии к ним. В дневнике отладки приводятся сведения об использовании других ЭВМ, существенном участии преподавателя и других лиц в написании и отладке программы.
