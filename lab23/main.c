@@ -10,18 +10,20 @@ int main() {
 
     Tree tree;
 
-    while (1) {
-        printf(
+    printf(
                 "0 - create tree\n"
                 "1 - add node\n"
                 "2 - print tree\n"
                 "3 - delete node\n"
                 "4 - check symmetric\n"
-                "5 - end program\n"
-                "6 - preorder\n"
-                "7 - inorder\n"
-                "8 - postorder\n"
+                "5 - preorder\n"
+                "6 - inorder\n"
+                "7 - postorder\n"
+                "8 - treeClear\n"
+                "9 - end program\n"
                );
+
+    while (1) {
 
         int key;
         scanf("%d", &key);
@@ -44,14 +46,18 @@ int main() {
         }
         else if (key == 4)
             printf("%d\n", treeCheckSym(&tree));
-        else if (key == 5)
+        else if (key == 9) {
+            treeClear(&tree);
             break;
-        else if (key == 6)
+        }
+        else if (key == 5)
             treePreorder(&tree);
-        else if (key == 7)
+        else if (key == 6)
             treeInorder(&tree);
-        else if (key == 8)
+        else if (key == 7)
             treePostorder(&tree);
+         else if (key == 8)
+            treeClear(&tree);
     }
 
     return 0;
