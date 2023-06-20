@@ -1,84 +1,49 @@
-#include <assert.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
+#include <locale.h>
 
-#include <unistd.h>
+#include "enrollee.h"
 
-#include "student.h"
-#include "types.h"
+#define NEUD 20
 
-typedef struct {
-    FILE *in, *out;
-} Data;
-
-
-bool get(Student *student, void *data);
-//void put(char classmateLetter, void *data);
-
-bool get(Student * const student, void * const data) {
-    FILE * const in = ((Data *) data)->in;
-    const size_t count = fread(student, sizeof(Student), 1U, in);
-    if (count != 1U && ferror(in) != 0) {
-        perror("fread");
-        exit(EXIT_FAILURE);
-    } else if (count != 1U)
-        return false;
-    return true;
+int readEnrollee(FILE* file, Enrollee* enrollee) {
+    return fread(enrollee, sizeof(Enrollee), 1, file) == 1;
 }
 
-void put(const char classmateLetter, void * const data) {
-    FILE * const out = ((Data *) data)->out;
-    fprintf(out, "classmateLetter = %c\n", classmateLetter);
+void printBase(FILE *file) {
+    Enrollee enrollee;
+    printHead();
+    while (readEnrollee(file, &enrollee)){
+        printEnrolleeTable(&enrollee);
+    }
 }
 
-int main(const int argc, char ** const argv) {
-    if (argc != 5) {
-        fprintf(stderr, "%s: wrong count of arguments\n", argv[0]);
-        exit(EXIT_FAILURE);
-    } else if (strcmp(argv[1], "--help") == 0) {
-        printf("Usage:\n  %s -f FILE -p PARAMETER\n", argv[0]);
-        exit(EXIT_SUCCESS);
-    };
+void func(FILE *file) {
+    Enrollee enrollee;
+    printHead();
+    while (readEnrollee(file, &enrollee)){
+        if (enrollee.medal == 1 && enrollee.marks[1] <= NEUD)
+            printEnrolleeTable(&enrollee);
+    }
+}
 
-    const char *file = NULL;
-    llong parameter = 0;
-    for (int opt; opt = getopt(argc, argv, "f:p:"), opt != -1; ) {
-        switch (opt) {
-            case ':':
-                fprintf(stderr, "%s: unknown option -- %c\n", argv[0], optopt);
-                break;
-            case '?':
-                break;
-            case 'f':
-                file = optarg;
-                break;
-            case 'p':
-                char *end;
-                parameter = strtoll(optarg, &end, 10);
-                break;
-            default:
-                assert(false);
+int main(int argc, char* argv[]) {
+
+    if (argc == 3 && strcmp(argv[1], "print") == 0) {
+        FILE *file = fopen(argv[2], "r");
+        if (file) {
+            printBase(file);
         }
+        fclose(file);
     }
-    /*
-        на отл: добавить проверок при парсинге (не убирая getopt)
-    */
-
-    printf("file: %s, parameter: %lld\n", file, parameter);
-
-    FILE *in = fopen("in.dat", "rb");
-    if (in == NULL) {
-        perror("fopen");
-        exit(EXIT_FAILURE);
-    }
-    Data data = { .in = in, .out = stdout };
-    select(get, put, &data);
-
-    if (fclose(in) == EOF) {
-        perror("fclose");
-        exit(EXIT_FAILURE);
+    if (argc == 3 && strcmp(argv[1], "func") == 0) {
+        FILE *file = fopen(argv[2], "r");
+        if (file) {
+            func(file);
+        }
+        fclose(file);
     }
 
     return 0;
