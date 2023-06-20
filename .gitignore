@@ -6,3 +6,4 @@ cmake-build-debug
 CMakeLists.txt
 CMake
 *.h.gch
+*.o
