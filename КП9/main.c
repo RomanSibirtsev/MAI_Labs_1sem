@@ -6,24 +6,23 @@
 #include "table.h"
 
 int main() {
-    char *key = "key2";
-    char *value = "value2222";
-    char str[KEY_LENGTH + VALUE_LENGTH];
-
+    FILE *file;
+    file = fopen("t.txt", "r");
     Table table;
     tableCreate(&table);
-    tablePushBack(&table, key, value);
-    key = "key";
-    value = "value___";
-    tablePushBack(&table, key, value);
-    key = "key3";
-    value = "value3333";
-    tablePushBack(&table, key, value);
-    tablePrintSimple(&table);
-    bool a = tableCheckSort(&table);
-    bool b = tableCheckSortInv(&table);
-    printf("%d %d\n", a, b);
+    size_t size;
+    char key[KEY_LENGTH];
+    char value[VALUE_LENGTH];
+    fscanf(file, "%ld", &size);
+    for (size_t i = 0; i < size; ++i) {
+        fscanf(file, "%s %s\n", key, value);
+        tablePushBack(&table, key, value);
+    }
+    fclose(file);
+    tablePrintGood(&table);
     tableSort(&table);
+    printf("\n");
     tablePrintGood(&table);
     tableDestroy(&table);
+
 }
