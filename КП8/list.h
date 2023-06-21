@@ -22,7 +22,9 @@ void listInsert(List *list, Iterator *iterator, void *val, char* type);
 void listErase(List *list, Iterator *iterator);
 void listDestroy(List *list);
 void listPrint(List *list);
-void listPushBack(List *lis, void* val, char* type);
+void listPushBack(List *list, void* val, char* type);
+size_t listLength(List *list);
+void listFunc(List *list, void* val, char* type);
 
 
 Iterator listIteratorNext(List *list, const Iterator *iterator);

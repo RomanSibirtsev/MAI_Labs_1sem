@@ -18,10 +18,19 @@ struct ListNode{
 void listCreate(List *list) {
     ListNode *node = malloc(sizeof(ListNode));
     node->next = NULL;
-    node->data = NULL;
-    node->type = NULL;
+    int a = 5;
+    node->data = (void*)&a;
+    node->type = "int";
     node->end = 1;
     list->first = node;
+}
+
+void listClear(List *list) {
+    Iterator it = listIteratorBegin(list);
+     while (!listIsEmpty(list)) {
+        listErase(list, &it);
+        it = listIteratorBegin(list);
+    }
 }
 
 bool listIsEmpty(List *list) {
@@ -30,17 +39,18 @@ bool listIsEmpty(List *list) {
 }
 
 void listInsert(List *list, Iterator *iterator, void *val, char* type) {
-    ListNode *node = malloc(sizeof(ListNode));
-    node->next = iterator->node;
-    node->data = val;
-    node->type = type;
-    node->end = 0;
+    ListNode *newnode = malloc(sizeof(ListNode));
+    newnode->next = iterator->node;
+    newnode->data = val;
+    newnode->type = type;
+    newnode->end = 0;
     Iterator prev;
     prev = listIteratorPrev(list, iterator);
-    if (prev.node != NULL)
-        prev.node->next = node;
+    if (prev.node != NULL) {
+        prev.node->next = newnode;
+    }
     else
-        list->first = node;
+        list->first = newnode;
 }
 
 void listErase(List *list, Iterator *iterator) {
@@ -60,12 +70,15 @@ void listErase(List *list, Iterator *iterator) {
 }
 
 void printVal(void* val, char* type) {
+    printf("%s ", type);
     if (strcmp(type, "int") == 0)
         printf("%d\n", *((int*)val));
-    if (strcmp(type, "char") == 0) {
+    else if (strcmp(type, "char") == 0) {
         char* a = (char*)val;
         printf("%s\n", a);
     }
+    else 
+        printf("unknown type, (char) value = %s", (char*)val);
 } 
 
 void listPrint(List *list) {
@@ -85,10 +98,34 @@ void listDestroy(List *list) {
     while (!listIsEmpty(list)) {
         listErase(list, &it);
         it = listIteratorBegin(list);
-        printf("%d erase\n", listIsEmpty(list));
     }
     free(list->first);
     list->first = NULL;
+}
+
+size_t listLength(List *list) {
+    Iterator it = listIteratorBegin(list);
+    size_t length = 0;
+    while (it.node != NULL && it.node->end != 1) {
+        length++;
+        it = listIteratorNext(list, &it);
+    }
+    return length;
+}
+
+
+void listFunc(List *list, void* val, char* type) {
+        Iterator it = listIteratorSet(list, val, type);
+        if (it.node != NULL) {
+            listClear(list);
+            printf("list clear\n");
+        }
+        else 
+            printf("not value in list\n");
+
+
+
+
 }
 
 // iterator
@@ -97,12 +134,12 @@ Iterator listIteratorBegin(List *list) {
 }
 Iterator listIteratorEnd(List *list) {
     Iterator it = listIteratorBegin(list);
-    if ((it.node)->end != 1) {
-        while ((it.node)->next->end != 1) {
-            it = listIteratorNext(list, &it);
-        }
-    }
-    if ((it.node)->next != NULL)
+    // if (it.node->end != 1) {
+    //     while (it.node->next->end != 1) {
+    //         it = listIteratorNext(list, &it);
+    //     }
+    // }
+    while ((it.node)->next != NULL)
         it = listIteratorNext(list, &it);
     return it;
 }
