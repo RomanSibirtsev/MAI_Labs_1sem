@@ -9,13 +9,13 @@
 int main() {
     List list;
     listCreate(&list);
-    while (1) {
-        printf("pushback\n"
+    printf("pushback\n"
                "print\n"
                "length\n"
                "func\n"
                "pushindex\n"
                "exit\n");
+    while (1) {
         char command[COMMAND_LEN];
         scanf("%s", command);
         if (strcmp(command, "pushback") == 0) {
