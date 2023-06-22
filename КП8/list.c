@@ -9,19 +9,14 @@
 typedef struct ListNode ListNode;
 
 struct ListNode{
-    void *data;
-    char *type;
+    int *data;
     ListNode *next;
-    bool end;
 } ;
 
 void listCreate(List *list) {
     ListNode *node = malloc(sizeof(ListNode));
     node->next = NULL;
-    int a = 5;
-    node->data = (void*)&a;
-    node->type = "int";
-    node->end = 1;
+    node->data = NULL;
     list->first = node;
 }
 
@@ -35,15 +30,15 @@ void listClear(List *list) {
 
 bool listIsEmpty(List *list) {
     Iterator begin = listIteratorBegin(list);
-    return begin.node->end == 1;
+    return begin.node->data == NULL;
 }
 
-void listInsert(List *list, Iterator *iterator, void *val, char* type) {
+void listInsert(List *list, Iterator *iterator, int val) {
     ListNode *newnode = malloc(sizeof(ListNode));
+    int *a = malloc(sizeof(int));
+    *a = val;
     newnode->next = iterator->node;
-    newnode->data = val;
-    newnode->type = type;
-    newnode->end = 0;
+    newnode->data = a;
     Iterator prev;
     prev = listIteratorPrev(list, iterator);
     if (prev.node != NULL) {
@@ -64,33 +59,28 @@ void listErase(List *list, Iterator *iterator) {
     else
         list->first = next.node;
 
+    free(iterator->node->data);
     free(iterator->node);
 
     iterator = &next;
 }
 
-void printVal(void* val, char* type) {
-    printf("%s ", type);
-    if (strcmp(type, "int") == 0)
-        printf("%d\n", *((int*)val));
-    else if (strcmp(type, "char") == 0) {
-        char* a = (char*)val;
-        printf("%s\n", a);
-    }
-    else 
-        printf("unknown type, (char) value = %s", (char*)val);
-} 
-
 void listPrint(List *list) {
     Iterator it = listIteratorBegin(list);
-    while(it.node->end != 1) {
-        printVal(it.node->data, it.node->type);
+    while(it.node->data != NULL) {
+        printf("%d ", *it.node->data);
         it = listIteratorNext(list, &it);
     }
+    printf("\n");
 }
-void listPushBack(List *list, void* val, char* type) {
+void listPushBack(List *list, int val) {
     Iterator end = listIteratorEnd(list);
-    listInsert(list, &end, val, type);
+    listInsert(list, &end, val);
+}
+
+void listPushIndex(List *list, int val, int index) {
+    Iterator it = listIteratorIndex(list, index);
+    listInsert(list, &it, val);
 }
 
 void listDestroy(List *list) {
@@ -106,7 +96,7 @@ void listDestroy(List *list) {
 size_t listLength(List *list) {
     Iterator it = listIteratorBegin(list);
     size_t length = 0;
-    while (it.node != NULL && it.node->end != 1) {
+    while (it.node != NULL && it.node->data != NULL) {
         length++;
         it = listIteratorNext(list, &it);
     }
@@ -114,8 +104,8 @@ size_t listLength(List *list) {
 }
 
 
-void listFunc(List *list, void* val, char* type) {
-        Iterator it = listIteratorSet(list, val, type);
+void listFunc(List *list, int val) {
+        Iterator it = listIteratorSet(list, val);
         if (it.node != NULL) {
             listClear(list);
             printf("list clear\n");
@@ -158,29 +148,33 @@ Iterator listIteratorPrev(List *list, const Iterator *iterator) {
     return it;
 }
 
-void listIteratorGet(const Iterator *iterator, void* val) {
-    val = (void*)iterator->node->data;
+void listIteratorGet(const Iterator *iterator, int val) {
+    val = *iterator->node->data;
 }
 
-bool compareValues(void* v1, char* type1, void *v2, char *type2) {
-
-    if (strcmp(type1, type2) == 0) {
-        if (strcmp(type1, "int") == 0)
-            return *((int*)v1) == *((int*)v2);
-        if (strcmp(type1, "char") == 0) {
-            if (strcmp((char*)v1, (char*)v2) == 0)
-                return 1;
-            return 0;
-        }
-    }
+bool compareValues(int v1, int v2) {
+    if (v1 == v2)
+        return 1; 
     return 0;
 }
 
-Iterator listIteratorSet(List *list, void *val, char *type) {
+Iterator listIteratorSet(List *list, int val) {
     Iterator it = listIteratorBegin(list);
-    while (!compareValues(it.node->data, it.node->type, val, type) && it.node->end != 1)
-        it = listIteratorNext(list, &it);
-    if (it.node->end == 1)
+    while (it.node->data != NULL)
+        if (!compareValues(*it.node->data, val))
+            it = listIteratorNext(list, &it);
+    if (it.node->data == NULL)
         return (Iterator){.node = NULL};
     return it;
+}
+
+Iterator listIteratorIndex(List *list, int index) {
+    size_t id = 0;
+    Iterator iter = listIteratorBegin(list);
+    while (id != index && iter.node->data != NULL) {
+        iter = listIteratorNext(list, &iter);
+        ++id; 
+    }
+    return iter;
+
 }

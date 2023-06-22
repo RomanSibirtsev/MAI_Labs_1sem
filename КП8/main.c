@@ -4,21 +4,47 @@
 
 #include "list.h"
 
+#define COMMAND_LEN 40
+
 int main() {
     List list;
     listCreate(&list);
-    int a = 3, b = 5, c = 987, d = 456;
-    char *s1 = "qwe", *s2 = "aaaa", *s3 = "bbbb";
-    listPushBack(&list, (void*)&a, "int");
-    listPushBack(&list, (void*)s2, "char");
-    listPushBack(&list, (void*)&b, "int");
-    listPushBack(&list, (void*)s1, "char");
-    listPushBack(&list, (void*)&d, "int");
-    listPushBack(&list, (void*)s3, "char");
-    listPushBack(&list, (void*)&c, "int");
-    listPrint(&list);
-    listFunc(&list, (void*)&b, "char");
-    listFunc(&list, (void*)&b, "int");
+    while (1) {
+        printf("pushback\n"
+               "print\n"
+               "length\n"
+               "func\n"
+               "pushindex\n"
+               "exit\n");
+        char command[COMMAND_LEN];
+        scanf("%s", command);
+        if (strcmp(command, "pushback") == 0) {
+            int val;
+            printf("insert value:  ");
+            scanf("%d", &val);
+            listPushBack(&list, val);
+        }
+        if (strcmp(command, "print") == 0) {
+            listPrint(&list);
+        }
+        if (strcmp(command, "length") == 0)
+            printf("%ld\n", listLength(&list));
+        if (strcmp(command, "func") == 0) {
+            int val;
+            printf("insert value:  ");
+            scanf("%d", &val);
+            listFunc(&list, val);
+        }
+        if (strcmp(command, "pushindex") == 0) {
+            int val, index;
+            printf("insert value and index:  ");
+            scanf("%d %d", &val, &index);
+            listPushIndex(&list, val, index);
+        }
+        if (strcmp(command, "exit") == 0) {
+            break;
+        }
+
+    }
     listDestroy(&list);
-    
 }
