@@ -87,6 +87,7 @@ void tableSort(Table *table) {
     bool sortinv = tableCheckSortInv(table);
     if (sortinv) {
         printf("the table is already sorted in reverse order \n");
+        tableReverse(table);
         return;
     }
     char key1[KEY_LENGTH];
@@ -131,7 +132,13 @@ bool tableCheckSort(Table *table) {
     }
     return check;
 }
-    
+
+void tableReverse(Table *table) {
+    for (size_t i = 0; i < table->capacity / 2; ++i) {
+        tableSwap(table, i, table->capacity - 1 - i);
+    }
+}
+
 bool tableCheckSortInv(Table *table) {
     bool check = 1;
     char first[KEY_LENGTH];
@@ -153,11 +160,30 @@ void tablePrintGood(Table *table) {
     for (size_t i = 0; i < table->capacity; ++i) {
         tableGetKey(table, key, i);
         tableGetValue(table, value, i);
-        for(size_t j = 0; j < KEY_LENGTH; ++j)
-            printf("%c", key[j]);  
+        printf("%s", key);  
         printf("  "); 
-        for(size_t j = 0; j < VALUE_LENGTH; ++j)
-            printf("%c", value[j]);
+        printf("%s", value);
         printf("\n");
     }
+}
+
+void tableSearch(Table *table, char key[KEY_LENGTH]) {
+    size_t len = table->capacity;
+    size_t middle = len / 2;
+    char V[VALUE_LENGTH];
+    while(len != 0) {
+        len = len / 2;
+        char K[KEY_LENGTH];
+        tableGetKey(table, K, middle);
+        if (strcmp(K, key) > 0) {
+            middle -= len / 2 + 1;
+        } else if (strcmp(K, key) < 0) {
+            middle += len / 2 + 1;
+        } else {
+            tableGetValue(table, V, middle);
+            printf("%s\n", V);
+            return;
+        }
+    }
+    printf("key not in table\n");
 }

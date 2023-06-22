@@ -34,6 +34,8 @@ void tableGetValue(Table *table, char value[VALUE_LENGTH] ,size_t i);
 void tableSort(Table *table);
 bool tableCheckSort(Table *table);
 bool tableCheckSortInv(Table *table);
+void tableReverse(Table *table);
 void tableSwap(Table *table, size_t i, size_t j);
+void tableSearch(Table *table, char key[KEY_LENGTH]);
 
 #endif //TABLE_H

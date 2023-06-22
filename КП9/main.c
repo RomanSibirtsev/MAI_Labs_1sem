@@ -11,7 +11,7 @@ int main() {
     Table table;
     tableCreate(&table);
     size_t size;
-    char key[KEY_LENGTH];
+    char key[KEY_LENGTH] = "b";
     char value[VALUE_LENGTH];
     fscanf(file, "%ld", &size);
     for (size_t i = 0; i < size; ++i) {
@@ -23,6 +23,8 @@ int main() {
     tableSort(&table);
     printf("\n");
     tablePrintGood(&table);
+    scanf("%s", key);
+    tableSearch(&table, key);
     tableDestroy(&table);
 
 }
