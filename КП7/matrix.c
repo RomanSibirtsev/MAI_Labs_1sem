@@ -80,7 +80,6 @@ void matrixGetSize(Matrix *matrix, size_t** arr) {
 
     arr[0] = &matrix->n;
     arr[1] = &matrix->m;
-;
 }
 
 void func(Matrix *matrix, int* arr) {

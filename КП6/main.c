@@ -6,7 +6,7 @@
 
 #include "enrollee.h"
 
-#define NEUD 20
+#define FAILED 20
 
 int readEnrollee(FILE* file, Enrollee* enrollee) {
     return fread(enrollee, sizeof(Enrollee), 1, file) == 1;
@@ -24,7 +24,7 @@ void func(FILE *file) {
     Enrollee enrollee;
     printHead();
     while (readEnrollee(file, &enrollee)){
-        if (enrollee.medal == 1 && enrollee.marks[1] <= NEUD)
+        if (enrollee.medal == 1 && enrollee.marks[1] <= FAILED)
             printEnrolleeTable(&enrollee);
     }
 }
