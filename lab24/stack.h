@@ -25,6 +25,8 @@ void stackResize(Stack *stack, int newsize);
 bool stackIsEmpty(Stack *stack);
 void stackPrint(Stack *stack);
 void toPostfix(Stack *stack, char *expression);
+int precedence(char ch);
+int checkIfOperand(char ch);
 
 
 #endif //TREE_H

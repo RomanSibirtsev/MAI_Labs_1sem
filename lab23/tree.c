@@ -153,7 +153,6 @@ void treePrint(Tree * const tree) {
 }
 
 bool treeIsSymmetric(TreeNode * left, TreeNode * right){
-    //printf("%d %d \n", left->value, right->value);
     if (left == NULL && right == NULL)
         return true;
     else if (left != NULL && right != NULL)

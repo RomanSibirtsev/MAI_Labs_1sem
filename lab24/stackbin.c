@@ -7,8 +7,8 @@
 #include <string.h>
 
 #include "stackbin.h"
-#include "tree.h"
 
+typedef struct Pair Pair;
 
 void stackBinCreate(StackBin *stack) {
     stack->data = NULL;
@@ -41,10 +41,10 @@ struct Pair stackBinPop(StackBin *stack) {
 }
 void stackBinResize(StackBin *stack, int newsize) {
     if (stack->data == NULL) {
-        stack->data = malloc(sizeof(char) * newsize);
+        stack->data = malloc(sizeof(Pair) * newsize);
         stack->size = newsize;
     } else {
-        stack->data = realloc(stack->data, sizeof(char) * newsize);
+        stack->data = realloc(stack->data, sizeof(Pair) * newsize);
         stack->size = newsize;
     }
 }
@@ -53,6 +53,6 @@ bool stackBinIsEmpty(StackBin *stack) {
 }
 
 void stackBinPrint(StackBin *stack) {
-    while (!stackIsEmpty(stack))
-        printf("%c ", stackPop(stack));
+    while (!stackBinIsEmpty(stack))
+        printf("%d ", stackBinPop(stack).v);
 }

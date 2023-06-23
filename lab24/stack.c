@@ -51,13 +51,11 @@ void stackPrint(Stack *stack) {
         printf("%c ", stackPop(stack));
 }
 
-int checkIfOperand (char ch)
-{
-  return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z');
+int checkIfOperand (char ch) {
+  return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9');
 }
 
-int precedence (char ch)
-{
+int precedence (char ch) {
   switch (ch)
     {
     case '+':
@@ -106,6 +104,4 @@ void toPostfix(Stack *stack, char *expression) {
     expression[++j] = stackPop(stack);
 
   expression[++j] = '\0';
-  //printf ("%s", expression);
-  //return expression;
 }

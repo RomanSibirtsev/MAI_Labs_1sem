@@ -9,11 +9,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "tree.h"
 
-#define MAX_SIZE 100
 
 typedef struct TreeNode TreeNode;
+typedef struct Pair Pair;
 
 struct Pair{    
     TreeNode *node;
