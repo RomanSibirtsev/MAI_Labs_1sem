@@ -105,13 +105,13 @@ size_t listLength(List *list) {
 
 
 void listFunc(List *list, int val) {
-        Iterator it = listIteratorSet(list, val);
-        if (it.node != NULL) {
-            listClear(list);
-            printf("list clear\n");
-        }
-        else 
-            printf("not value in list\n");
+    Iterator it = listIteratorSet(list, val);
+    if (it.node != NULL) {
+        listClear(list);
+        printf("list clear\n");
+    }
+    else 
+        printf("not value in list\n");
 
 
 
@@ -160,9 +160,12 @@ bool compareValues(int v1, int v2) {
 
 Iterator listIteratorSet(List *list, int val) {
     Iterator it = listIteratorBegin(list);
-    while (it.node->data != NULL)
+    while (it.node->data != NULL) {
         if (!compareValues(*it.node->data, val))
             it = listIteratorNext(list, &it);
+        else
+            break;
+    }
     if (it.node->data == NULL)
         return (Iterator){.node = NULL};
     return it;
