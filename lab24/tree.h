@@ -24,4 +24,6 @@ void treePrint(Tree *tree);
 void treeFromPostfix(Tree *tree, Stack *postfix, StackBin *stack);
 void treeDelOnes(Tree *tree);
 bool treeF(Tree *tree);
+int treeCount(Tree *tree);
+
 #endif //TREE_H

@@ -29,7 +29,7 @@ int main() {
 
 	printf("enter expression\n");
 	scanf("%s", expression);
-	printf("%s\n", expression);
+	//printf("%s\n", expression);
 	toPostfix(&stack, expression);
 	exptostack(&res, expression);
 	treeFromPostfix(&tree, &res, &s);
@@ -37,6 +37,8 @@ int main() {
 	printf("\n");
 	treeF(&tree);
 	treePrint(&tree);
+	printf("\n");
+	printf("count = %d\n", treeCount(&tree));
 
 
 	treeDestroy(&tree);

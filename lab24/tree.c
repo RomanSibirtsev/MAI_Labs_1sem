@@ -137,3 +137,25 @@ void treeDestroy(Tree *tree)  {
     tree->root = NULL;
     --tree->size;
 }
+
+int nodeCount(TreeNode *node) {
+    if (checkIfOperand(node->value)) {
+        return node->value - '0';
+    }
+    if (node->value == '/') {
+        return nodeCount(node->left) / nodeCount(node->right);
+    }
+    if (node->value == '*') {
+        return nodeCount(node->left) * nodeCount(node->right);
+    }
+    if (node->value == '+') {
+        return nodeCount(node->left) + nodeCount(node->right);
+    }
+    if (node->value == '-') {
+        return nodeCount(node->left) - nodeCount(node->right);
+    }
+}
+
+int treeCount(Tree *tree) {
+    return nodeCount(tree->root);
+}

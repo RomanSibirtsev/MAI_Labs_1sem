@@ -66,7 +66,7 @@ int main() {
 
 	printf("enter expression\n");
 	scanf("%s", expression);
-	printf("%s\n", expression);
+	//printf("%s\n", expression);
 	toPostfix(&stack, expression);
 	exptostack(&res, expression);
 	treeFromPostfix(&tree, &res, &s);
@@ -74,6 +74,8 @@ int main() {
 	printf("\n");
 	treeF(&tree);
 	treePrint(&tree);
+	printf("\n");
+	printf("count = %d\n", treeCount(&tree));
 
 
 	treeDestroy(&tree);
@@ -112,7 +114,10 @@ void treePrint(Tree *tree);
 void treeFromPostfix(Tree *tree, Stack *postfix, StackBin *stack);
 void treeDelOnes(Tree *tree);
 bool treeF(Tree *tree);
+int treeCount(Tree *tree);
+
 #endif //TREE_H
+
 ```
 tree.c
 ```c
@@ -254,6 +259,28 @@ void treeDestroy(Tree *tree)  {
     free(root);
     tree->root = NULL;
     --tree->size;
+}
+
+int nodeCount(TreeNode *node) {
+    if (checkIfOperand(node->value)) {
+        return node->value - '0';
+    }
+    if (node->value == '/') {
+        return nodeCount(node->left) / nodeCount(node->right);
+    }
+    if (node->value == '*') {
+        return nodeCount(node->left) * nodeCount(node->right);
+    }
+    if (node->value == '+') {
+        return nodeCount(node->left) + nodeCount(node->right);
+    }
+    if (node->value == '-') {
+        return nodeCount(node->left) - nodeCount(node->right);
+    }
+}
+
+int treeCount(Tree *tree) {
+    return nodeCount(tree->root);
 }
 ```
 stack.h
